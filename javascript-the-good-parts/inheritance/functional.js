@@ -10,4 +10,43 @@
 // определенным на втором этапе
 //
 // Возвращается новый объект
+//
+// В следующем примере будет создана функция mammal, выполняющая 4 условия.
+// Далее будет создан объект, имеющий доступ к объекту, скрытому по ссылке,
+// посредством методов, однако его методы не могут изменить первоначальный
+// объект. Таким образом мы защитили первоначальный объект от изменения.
+//
+// Далее мы создаем ещё одну функцию, которая создает экземпляр mammal, а затем
+// дополняет его своими возможностями (своего рода наследование).
 
+var mammal = function(spec){
+   var that = {};
+   that.getName = function () {
+      return spec.name || '';
+   };
+
+   that.says = function(){
+      return spec.saying || '';
+   };
+
+   return that;
+};
+
+var myMammal = mammal({name: 'Mammal'});
+
+var cat = function(spec){
+   spec.saying = spec.saying || 'meow';
+   var that = mammal(spec);
+
+   that.purr = function(){
+      return 'r-r-r-r-r'
+   };
+
+   that.getName = function () {
+      return this.says() + ' ' + this.name
+   };
+
+   return that;
+};
+
+var myCat = cat({name: 'Cat'});
