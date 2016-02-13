@@ -4,7 +4,7 @@
 var calculator = {
    read: function(){
       this.a = +prompt('введи число 1', 0);
-      this.b = +prompt('введи число 2', 0);
+      this.b = +prompt('введи число 2.js', 0);
    },
    sum: function(){
       return this.a + this.b

@@ -18,7 +18,7 @@ Article.showStats = function(){
 new Article();
 new Article();
 
-Article.showStats(); // Всего: 2, Последняя: (дата)
+Article.showStats(); // Всего: 2.js, Последняя: (дата)
 
 new Article();
 
