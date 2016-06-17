@@ -1,15 +1,17 @@
 // module.exports = exports = this
 
-var phrases = require('db');
+var db = require('db');
+// console.log(module);
+var log = require('logger')(module)
 
-phrases.connect();
+db.connect();
 
 function User(name) {
    this.name = name;
 }
 
 User.prototype.hello = function(who) {
-   console.log(phrases.getPhrase('Hello') + ' ' + who.name);
+   log(db.getPhrase('Hello') + ' ' + who.name);
 };
 
 module.exports = User;
