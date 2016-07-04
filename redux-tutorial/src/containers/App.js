@@ -1,31 +1,42 @@
 import React, { Component } from 'react'
-import	{	bindActionCreators	}	from	'redux'
+import AddFilm from './AddFilm'
+import FilmsTable from '../components/FilmsTable'
+import FilmCard from '../components/FilmCard'
 import { connect} from 'react-redux'
-import User from '../components/User.js'
-import Page from '../components/Page.js'
-import	*	as	pageActions	from	'../actions/PageActions'
+// import	{	bindActionCreators	}	from	'redux'
+// import	{deleteFilm, viewFilm}	from	'../actions'
+import	{deleteFilm, viewFilm}	from	'../actions'
 
 class App extends Component {
   render() {
-    const { user, page } = this.props
-    const	{	setYear	}	=	this.props.pageActions
+    const	{	films,	deleteFilm,	viewFilm, currentFilm }	=	this.props
+    let filmView;
+    console.log(currentFilm);
+    if (currentFilm) {
+      filmView = (<FilmCard currentFilm={currentFilm}/>)
+    }
     return <div>
-      <User name={user.name} />
-      <Page page={page} setYear={setYear} />
-    </div>
+            <AddFilm />
+            <FilmsTable films={films}
+                        onDeleteFilmClick={deleteFilm}
+                        onViewFilmClick={viewFilm}
+            />
+            {filmView}
+          </div>
   }
 }
 
 function mapStateToProps(state) {
   return {
-    user: state.user,
-    page: state.page
+    films: state.films,
+    currentFilm: typeof state.currentFilmId === 'number' && state.films[state.currentFilmId]
   }
 }
 
 function mapDispatchToProps(dispatch)	{
   return {
-    pageActions: bindActionCreators(pageActions,	dispatch)
+    deleteFilm: id => {dispatch(deleteFilm(id))},
+    viewFilm: id => {dispatch(viewFilm(id))}
   }
 }
 

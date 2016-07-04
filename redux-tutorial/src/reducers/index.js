@@ -1,8 +1,10 @@
 import { combineReducers } from 'redux'
-import user from './user'
-import page from './page'
+import films from './films'
+import currentFilmId from './currentFilmId'
+import isFeatching from './isFeatching'
 
 export default combineReducers({
-  user,
-  page
+  films,
+  currentFilmId,
+  isFeatching
 })
