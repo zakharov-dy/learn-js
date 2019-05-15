@@ -1,6 +1,0 @@
-export	const	GET_FILM_REQUEST	=	'GET_FILM_REQUEST'
-export	const	GET_FILM_SUCCESS	=	'GET_FILM_SUCCESS'
-export	const	GET_FILM_FAILURE	=	'GET_FILM_FAILURE'
-
-export const DELETE_FILM = 'DELETE_FILM'
-export const VIEW_FILM = 'VIEW_FILM'
