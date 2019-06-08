@@ -7,8 +7,7 @@
 // d: 111
 
 //очередь с приоритетами (куча через полное двоичное дерево)
-//TODO: не сделано
-class PriorityQueue {
+class PriorityQueueMin {
   constructor(initValues = []) {
     this.values = [];
     initValues.forEach(v => this.insert(v));
@@ -23,21 +22,55 @@ class PriorityQueue {
       return;
     }
 
-    let parentIndex = Math.ceil(index / 2);
-    while (values[parentIndex] < value) {
+    let parentIndex = Math.floor((index - 1) / 2);
+    while (values[parentIndex].w > value.w) {
       let buffer = values[parentIndex];
       values[parentIndex] = value;
       values[index] = buffer;
       index = parentIndex;
-      parentIndex = Math.ceil(index / 2);
-      if(parentIndex <= 0){
+      parentIndex = Math.floor((index - 1) / 2);
+      if (index <= 0) {
         return;
       }
     }
   }
 
   extractMin() {
-    return this.values.pop();
+    let { values } = this;
+    const first = values[0];
+    const lastIndex = values.length - 1;
+    values[0] = values[lastIndex];
+    values[lastIndex] = first;
+    const result = values.pop();
+
+    let currentIndex = 0;
+    let leftIndex = 1;
+    let rightIndex = 2;
+
+    let left = values[leftIndex];
+    let right = values[rightIndex];
+
+    while (
+      (left && values[currentIndex].w > left.w) ||
+      (right && values[currentIndex].w > right.w)
+      ) {
+      const buffer = values[currentIndex];
+      if (!right || (right && values[currentIndex].w > left.w && left.w < right.w)) {
+        values[currentIndex] = values[leftIndex];
+        values[leftIndex] = buffer;
+        currentIndex = leftIndex;
+      } else {
+        values[currentIndex] = values[rightIndex];
+        values[rightIndex] = buffer;
+        currentIndex = rightIndex;
+      }
+
+      leftIndex = currentIndex * 2 + 1;
+      rightIndex = leftIndex + 1;
+      right = values[rightIndex];
+      left = values[leftIndex];
+    }
+    return result;
   }
 }
 
@@ -57,7 +90,7 @@ function f(str) {
 
   const objKeysLength = Object.keys(obj).length;
 
-  const priorityQueue = new PriorityQueue(
+  const priorityQueue = new PriorityQueueMin(
     Object.keys(obj).map(k => ({ v: k, w: obj[k] }))
   );
 
@@ -84,18 +117,18 @@ function f(str) {
 
   //O(n^2*log(n));
   while (priorityQueue.values.length !== 1) {
-    const v1 = priorityQueue.getMin();
-    const v2 = priorityQueue.getMin();
+    const v1 = priorityQueue.extractMin();
+    const v2 = priorityQueue.extractMin();
     const tree = {
       0: v2,
       1: v1,
       w: v1.w + v2.w
     };
 
-    priorityQueue.add(tree);
+    priorityQueue.insert(tree);
   }
 
-  const tree = priorityQueue.getMin();
+  const tree = priorityQueue.extractMin();
   tree.path = "";
   let binaryArr = [tree];
 
