@@ -76,4 +76,4 @@ crashlytics-build.properties
 # Created by .ignore support plugin (hsz.mobi)
 /package-lock.json
 node_modules
-/interview-js/*
+/interview/*
